@@ -4,10 +4,11 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/budougumi0617/til/go/gomock/mock"
+	"github.com/budougumi0617/cimg_go/gomock/mock"
 	"github.com/golang/mock/gomock"
 )
 
+//go:generate go run github.com/golang/mock/mockgen -destination mock/client.go -package mock github.com/budougumi0617/cimg_go/gomock Client,Foo
 func TestReturn(t *testing.T) {
 	in := "any value"
 	want := "hoge"
