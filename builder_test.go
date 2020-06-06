@@ -2,7 +2,6 @@ package cimg_go
 
 import (
 	"fmt"
-	"strings"
 	"testing"
 )
 
@@ -13,16 +12,14 @@ func TestBuilder(t *testing.T) {
 		"bar",
 		"hoge",
 	}
-	var sb strings.Builder
+	var mb MyBuilder
 	// Reserve spaces.
-	sb.Grow(40)
+	mb.Grow(40)
 	for _, s := range in {
-		fmt.Fprint(&sb, s)
+		fmt.Fprint(&mb, s)
 	}
 
-	got := sb.String()
-
-	if got != want {
+	if got := mb.String(); got != want {
 		t.Errorf("want %s, but got = %s\n", want, got)
 	}
 }
