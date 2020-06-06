@@ -1,9 +1,13 @@
 # https://circleci.com/docs/2.0/language-go/
 version: 2.1
+orbs:
+  go: circleci/go@1.2.0 # https://circleci.com/orbs/registry/orb/circleci/go
+
 jobs:
   build:
-    docker:
-      - image: cimg/go:1.14.4
+    executor:
+      name: go/default
+      tag: '1.14.4'
 
     environment:
       TEST_RESULTS: /tmp/test-results
@@ -11,24 +15,13 @@ jobs:
     steps:
       - checkout
       - run: mkdir -p $TEST_RESULTS
+      - go/mod-download-cached
 
-      - restore_cache:
-          keys:
-            - v1-pkg-cache
-
-      - run: go get github.com/jstemmer/go-junit-report
       - run:
           name: Run unit tests
           command: |
-            trap "go-junit-report <${TEST_RESULTS}/go-test.out > ${TEST_RESULTS}/go-test-report.xml" EXIT
-            go test -v -p 6 -race -cover ./... | tee ${TEST_RESULTS}/go-test.out
-
+            gotestsum --junitfile ${TEST_RESULTS}/unit-tests.xml -- -p 6 -race -cover ./...
       - run: go build ./...
-
-      - save_cache:
-          key: v1-pkg-cache
-          paths:
-            - "/go/pkg"
 
       - store_artifacts:
           path: /tmp/test-results
