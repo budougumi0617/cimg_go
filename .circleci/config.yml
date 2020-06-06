@@ -5,7 +5,7 @@ orbs:
 jobs:
   build:
     executor:
-      name: go/default
+      name: go/default # the base image is cimg/go
       tag: '1.14.4'
 
     environment:
