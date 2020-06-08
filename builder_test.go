@@ -10,7 +10,7 @@ func TestBuilder(t *testing.T) {
 	in := []string{
 		"foo",
 		"bar",
-		"hoge",
+		"ho  ge",
 	}
 	var mb MyBuilder
 	// Reserve spaces.
